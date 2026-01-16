@@ -1,0 +1,37 @@
+openapi: 3.0.1
+info:
+  title: Key Vault Retriever API
+  description: Retrieve secrets from Azure Key Vault via Azure Function
+  version: "1.0.0"
+
+servers:
+  - url: https://kvretriever-edebhugvcfedhuay.westus-01.azurewebsites.net
+
+paths:
+  /api/get-secret:
+    get:
+      summary: Get secret from Key Vault
+      operationId: getSecret
+      responses:
+        '200':
+          description: Secret retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  secret:
+                    type: string
+      security:
+        - oauth2: []
+
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://login.microsoftonline.com/common/oauth2/v2.0/authorize
+          tokenUrl: https://login.microsoftonline.com/common/oauth2/v2.0/token
+          scopes:
+            api://2a1c1d75-96a5-411e-9d56-16842d59807f/user_impersonation: Access kvretriever API
